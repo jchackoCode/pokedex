@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es6",
+    "sourceMap": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "disableSizeLimit": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["react", "jest", "@testing-library/jest-dom"],
+    "baseUrl": "./"
+  },
+  "include": ["src"]
+}
