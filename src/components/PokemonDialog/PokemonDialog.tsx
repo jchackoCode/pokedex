@@ -33,6 +33,9 @@ export const PokemonDialog = ({ name, onClose }: Props) => {
         paper: {
           className: classes.dialogPaper,
         },
+        backdrop: {
+          className: classes.dialogBackdrop,
+        },
       }}
     >
 
@@ -127,6 +130,10 @@ const useStyles = createUseStyles({
       color: '#fff',
       padding: 16,
     },
+  },
+  dialogBackdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(2px)',
   },
   title: {
     color: '#fff',
