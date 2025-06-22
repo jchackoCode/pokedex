@@ -18,10 +18,8 @@ const LayoutContext = createContext<LayoutContextValue>({
   setLayout: () => null,
 });
 
-export const LayoutProvider: React.FC = ({ children }) => {
-  const [layout, setLayout] = useState({
-    navCollapsed: true,
-  });
+export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [layout, setLayout] = React.useState({ navCollapsed: true });
 
   return (
     <LayoutContext.Provider value={{ layout, setLayout }}>
