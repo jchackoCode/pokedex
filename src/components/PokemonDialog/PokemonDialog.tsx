@@ -9,8 +9,8 @@ import {
   Chip,
   Grid,
   CircularProgress,
-  useTheme,
 } from '@mui/material';
+import { createUseStyles } from 'react-jss';
 import { useGetPokemonDetails } from '../../hooks/useGetPokemonDetails';
 
 type Props = {
@@ -18,8 +18,9 @@ type Props = {
   onClose: () => void;
 };
 
+
 export const PokemonDialog = ({ name, onClose }: Props) => {
-  const theme = useTheme();
+  const classes = useStyles();
   const { pokemon, loading, error } = useGetPokemonDetails(name);
 
   return (
@@ -28,68 +29,124 @@ export const PokemonDialog = ({ name, onClose }: Props) => {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      PaperProps={{
-        sx: {
-          backgroundColor: '#1e1e2f',
-          color: '#fff',
-          padding: 2,
+      slotProps={{
+        paper: {
+          className: classes.dialogPaper,
         },
       }}
     >
-      <DialogTitle sx={{ color: '#fff', fontWeight: 'bold' }}>
+
+      <DialogTitle className={classes.title}>
         {pokemon?.name || 'Loading Pokémon...'}
       </DialogTitle>
+
       <DialogContent>
         {loading && <CircularProgress />}
-        {error && <Typography color="error">Error loading Pokémon details.</Typography>}
+        {error && (
+          <Typography className={classes.errorText}>
+            Error loading Pokémon details.
+          </Typography>
+        )}
 
         {pokemon && (
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4} textAlign="center">
+            <Grid item xs={12} md={4} style={{ textAlign: 'center' }}>
               <img
                 src={pokemon.image}
                 alt={pokemon.name}
-                style={{ width: 120, height: 120 }}
+                className={classes.image}
               />
             </Grid>
 
             <Grid item xs={12} md={8}>
-              <Typography variant="body2">Number: {pokemon.number}</Typography>
-              <Typography variant="body2">Max HP: {pokemon.maxHP}</Typography>
-              <Typography variant="body2">Max CP: {pokemon.maxCP}</Typography>
-              <Typography variant="body2">
+              <Typography variant="body2" className={classes.statText}>
+                Number: {pokemon.number}
+              </Typography>
+              <Typography variant="body2" className={classes.statText}>
+                Max HP: {pokemon.maxHP}
+              </Typography>
+              <Typography variant="body2" className={classes.statText}>
+                Max CP: {pokemon.maxCP}
+              </Typography>
+              <Typography variant="body2" className={classes.statText}>
                 Height: {pokemon.height.minimum} - {pokemon.height.maximum}
               </Typography>
-              <Typography variant="body2">
+              <Typography variant="body2" className={classes.statText}>
                 Weight: {pokemon.weight.minimum} - {pokemon.weight.maximum}
               </Typography>
-              <Typography variant="body2" sx={{ mt: 1 }}>
+              <Typography variant="body2" className={classes.statText}>
                 Classification: {pokemon.classification}
               </Typography>
-              <Typography variant="body2">Flee Rate: {pokemon.fleeRate}</Typography>
+              <Typography variant="body2" className={classes.statText}>
+                Flee Rate: {pokemon.fleeRate}
+              </Typography>
 
-              <Typography variant="subtitle2" sx={{ mt: 2 }}>Types:</Typography>
+              <Typography variant="subtitle2" className={classes.sectionTitle}>
+                Types:
+              </Typography>
               {pokemon.types.map((type) => (
-                <Chip key={type} label={type} size="small" sx={{ m: 0.5 }} />
+                <Chip
+                  key={type}
+                  label={type}
+                  size="small"
+                  className={classes.chip}
+                />
               ))}
 
-              <Typography variant="subtitle2" sx={{ mt: 2 }}>Weaknesses:</Typography>
+              <Typography variant="subtitle2" className={classes.sectionTitle}>
+                Weaknesses:
+              </Typography>
               {pokemon.weaknesses.map((w) => (
                 <Chip
                   key={w}
                   label={w}
                   size="small"
+                  className={classes.chip}
                   color="error"
-                  sx={{ m: 0.5 }}
                 />
               ))}
             </Grid>
           </Grid>
         )}
       </DialogContent>
+
       <DialogActions>
-        <Button onClick={onClose} color="primary">Close</Button>
+        <Button onClick={onClose} color="primary">
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   );
 };
+
+
+const useStyles = createUseStyles({
+  dialogPaper: {
+    '&.MuiPaper-root': {
+      backgroundColor: '#1e1e2f',
+      color: '#fff',
+      padding: 16,
+    },
+  },
+  title: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  image: {
+    width: 120,
+    height: 120,
+  },
+  statText: {
+    marginBottom: 4,
+  },
+  chip: {
+    margin: 4,
+  },
+  sectionTitle: {
+    marginTop: 16,
+    fontWeight: 600,
+  },
+  errorText: {
+    color: 'red',
+  },
+});
