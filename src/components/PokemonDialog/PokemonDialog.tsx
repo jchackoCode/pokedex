@@ -7,9 +7,10 @@ import {
   Button,
   Typography,
   Chip,
-  Grid,
   CircularProgress,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
+
 import { createUseStyles } from 'react-jss';
 import { useGetPokemonDetails } from '../../hooks/useGetPokemonDetails';
 
